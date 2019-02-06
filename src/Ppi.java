@@ -62,6 +62,10 @@ public class Ppi extends JPanel{
 		int width = getWidth();
 		int current = newest;
 		int shade = HISTORY;
+		g.setColor(Color.BLACK);
+		g.drawArc(0, 0, width, height, 0, -360);
+		g.drawString(""+(scale/1000)+"Km", width/2 -40, 0 +20);
+
 		do {
 			int shadeOfGray = (int)(((int)(255.0 * shade /HISTORY) << 16)+
 					((int)(255.0 * shade /HISTORY) << 8)+
