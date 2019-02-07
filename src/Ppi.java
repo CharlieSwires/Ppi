@@ -93,6 +93,9 @@ public class Ppi extends JPanel{
 				y1 = (int)(height/2.0-height*track.getNmetres()*1.0/(scale*2.0))-5;
 				y2 = y1+10;
 				g.drawLine(x1,y1,x2,y2);
+				if(scale != LONG_RANGE && current == newest) {
+					g.drawString(track.getSecondaryCode(), x1, y1);
+				}
 			}			
 			current--;
 			if (current < 0) {
