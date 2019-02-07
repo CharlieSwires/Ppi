@@ -23,6 +23,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 
 public class Ppi extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static final int MAX_TRKS = 1000;
 	static final int MAX_HT = 100000;
 	static final long MAX_RANGE = 500000;
@@ -37,6 +41,8 @@ public class Ppi extends JPanel{
 	static int newest = -1;
 	static long scale = LONG_RANGE;
 	static MyThread t;
+	static long deltatms = 1000;
+
 	private Ppi() {
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
 
@@ -45,6 +51,7 @@ public class Ppi extends JPanel{
 	JLabel minxl= new JLabel("Render interval (ms)");
 	JTextField minx= new JTextField("1000",10);
 
+	JButton go = new JButton("go");
 	JButton longRange = new JButton("Long");
 	JButton mediumRange = new JButton("Medium");
 	JButton shortRange = new JButton("Short");
@@ -155,7 +162,7 @@ public class Ppi extends JPanel{
 				
 				pe.repaint();
 				try {
-					t.sleep(Long.parseLong(minx.getText()));
+					t.sleep(deltatms);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -178,6 +185,16 @@ public class Ppi extends JPanel{
 			JPanel temp = new JPanel();
 			temp.add(minxl);		
 			temp.add(minx);
+			temp.add(go);
+			go.addActionListener(new ActionListener() {
+
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					deltatms = Long.parseLong(minx.getText());
+				}
+				
+			});
 			temp.add(longRange);
 			longRange.addActionListener(new ActionListener() {
 
