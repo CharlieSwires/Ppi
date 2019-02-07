@@ -34,7 +34,7 @@ public class Ppi extends JPanel{
 	static final long SHORT_RANGE = MAX_RANGE/4;
 	static final int HISTORY = 6;
 	static Tracks[] tracks = new Tracks[HISTORY];
-	static int newest = 0;
+	static int newest = -1;
 	static long scale = LONG_RANGE;
 	static MyThread t;
 	private Ppi() {
@@ -61,7 +61,7 @@ public class Ppi extends JPanel{
 		int height = getHeight();
 		int width = getWidth();
 		int current = newest;
-		int shade = HISTORY;
+		int shade = 0;
 		g.setColor(Color.BLACK);
 		g.drawArc(0, 0, width, height, 0, -360);
 		g.drawString(""+(scale/1000)+"Km", width/2 -40, 0 +20);
@@ -87,11 +87,11 @@ public class Ppi extends JPanel{
 				y2 = y1+10;
 				g.drawLine(x1,y1,x2,y2);
 			}			
-			current++;
-			if (current >= HISTORY) {
-				current = 0;
+			current--;
+			if (current < 0) {
+				current = HISTORY-1;
 			}
-			shade--; 
+			shade++; 
 		} while (current != newest && tracks[current] != null);
 		
 	}
@@ -147,10 +147,12 @@ public class Ppi extends JPanel{
 		@Override
 		public void run() {
 			do {
-				tracks[newest++]=pe.getTracks();
+				newest++;
 				if (newest >= HISTORY) {
 					newest = 0;
 				}
+				tracks[newest]=pe.getTracks();
+				
 				pe.repaint();
 				try {
 					t.sleep(Long.parseLong(minx.getText()));
